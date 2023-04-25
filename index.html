@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>Hello World</title>
-	<link rel="stylesheet" href="leaflet/leaflet.css" />
-	<script src="leaflet/leaflet.js"></script>
+    <title>My Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Load Leaflet from local files -->
+    <link rel="stylesheet" href="leaflet.css" />
+    <script src="leaflet.js"></script>
+
+    <style>
+        #mapid { height: 400px; }
+    </style>
 </head>
 <body>
-	<div id="map" style="width: 600px; height: 400px;"></div>
-	<script>
-		var map = L.map('map').setView([51.505, -0.09], 13);
-		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-			maxZoom: 18,
-			id: 'mapbox/streets-v11',
-			tileSize: 512,
-			zoomOffset: -1,
-			accessToken: 'pk.eyJ1Ijoidm95YWdlZ2FtZSIsImEiOiJjbGd3bzQ1dGQwMXhnM2xzZGdlcjlocHd5In0.wfHMuJcichjI-0vmxrkW-A'
-		}).addTo(map);
-		
-		L.marker([51.5, -0.09]).addTo(map)
-			.bindPopup('Hello World!')
-			.openPopup();
-	</script>
+
+    <div id="mapid"></div>
+
+    <script>
+        var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            tileSize: 512,
+            zoomOffset: -1
+        }).addTo(mymap);
+        L.marker([51.5, -0.09]).addTo(mymap)
+            .bindPopup('Hello World!')
+            .openPopup();
+    </script>
+
 </body>
 </html>
