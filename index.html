@@ -4,9 +4,8 @@
 	<title>Hello, Leaflet!</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-<	script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
+	<link rel="stylesheet" href="file:///F:/Downloads/leaflet/leaflet.css" />
+	<script src="file:///F:/Downloads/leaflet/leaflet.js"></script>
 
 </head>
 <body>
@@ -21,7 +20,7 @@
 				'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 			maxZoom: 18,
 			id: 'mapbox.streets',
-			accessToken: 'pk.eyJ1Ijoidm95YWdlZ2FtZSIsImEiOiJjbGd3bzQ1dGQwMXhnM2xzZGdlcjlocHd5In0.wfHMuJcichjI-0vmxrkW-A'
+			accessToken: 'your.mapbox.access.token'
 		}).addTo(map);
 
 		L.marker([51.5, -0.09]).addTo(map)
