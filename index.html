@@ -13,11 +13,13 @@
 <body>
 	<div id="map"></div>
 	<script>
-		var map = L.map('map').setView([51.505, -0.09], 13);
-		var imageUrl = 'map.png';
-		var imageBounds = [[51.5, -0.15], [51.49, -0.06]];
-		var image = L.imageOverlay(imageUrl, imageBounds).addTo(map);
-		map.fitBounds(image.getBounds());
+        var imageUrl = 'map.png',
+            imageBounds = [[51.5, -0.15], [51.49, -0.06]];
+        var map = L.map('map', {
+            maxBounds: imageBounds,
+            minZoom: 13
+        }).setView([51.505, -0.09], 13);
+        L.imageOverlay(imageUrl, imageBounds).addTo(map);
 	</script>
 </body>
 </html>
