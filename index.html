@@ -69,12 +69,10 @@
           let deltaY = event.clientY - startY;
           let newX = x + deltaX / zoomLevel;
           let newY = y + deltaY / zoomLevel;
-          let maxLeft = (imgWidth - viewWidth / zoomLevel) * -1;
-          let maxRight = 0;
-          let maxTop = (imgHeight - viewHeight / zoomLevel) * -1;
-          let maxBottom = 0;
-          newX = Math.max(maxLeft, Math.min(maxRight, newX));
-          newY = Math.max(maxTop, Math.min(maxBottom, newY));
+          let maxRight = (imgWidth * zoomLevel - viewWidth) / zoomLevel * -1; // fix for maxRight
+          let maxBottom = (imgHeight * zoomLevel - viewHeight) / zoomLevel * -1; // fix for maxBottom
+          newX = Math.max(Math.min(0, newX), maxRight); // fix for newX
+          newY = Math.max(Math.min(0, newY), maxBottom); // fix for newY
           img.style.transform = `scale(${zoomLevel}) translate(${newX}px, ${newY}px)`;
         }
         
