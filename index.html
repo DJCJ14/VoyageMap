@@ -1,51 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Hello World</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="leaflet.css" />
-    <script src="leaflet.js"></script>
+  <head>
+    <title>Map</title>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-        #map {
-            width: 100vw;
-            height: 100vh;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        cursor: zoom-in;
+      }
+      img:hover {
+        cursor: zoom-out;
+      }
     </style>
-</head>
-<body>
-    <div id="map"></div>
+  </head>
+  <body>
+    <img src="map.png">
     <script>
-        var imageUrl = 'map.png',
-            imageBounds = [[51.49, -0.12], [51.51, -0.06]];
-        
-        var map = L.map('map', {
-            center: [51.505, -0.09],
-            zoom: 1,
-            zoomControl: false,
-            maxBoundsViscosity: 1.0, // set max bounds viscosity to prevent panning outside of maximum bounds
-            minZoom: 1 // set the minimum zoom level to the initial zoom level
-        });
-        
-        var imageOverlay = L.imageOverlay(imageUrl, imageBounds, {
-            minNativeZoom: 1,
-            maxNativeZoom: 1
-        }).addTo(map);
-        
-        // set the bounds of the image overlay to the bounds of the image itself
-        map.fitBounds(imageOverlay.getBounds());
-        
-        // add zoom control
-        L.control.zoom({
-            position: 'topright'
-        }).addTo(map);
-        
-        // set maximum bounds to the bounds of the image overlay
-        map.setMaxBounds(imageOverlay.getBounds());
+      document.querySelector('img').addEventListener('click', function() {
+        if (this.style.width === '100%') {
+          this.style.width = '200%';
+          this.style.height = 'auto';
+        } else {
+          this.style.width = '100%';
+          this.style.height = '100%';
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
