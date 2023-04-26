@@ -29,7 +29,9 @@
             zoomControl: false // remove default zoom control
         });
         
-        L.imageOverlay(imageUrl, imageBounds).addTo(map);
+        L.imageOverlay(imageUrl, imageBounds, {
+            maxNativeZoom: 1 // set maximum zoom level to display image at native size
+        }).addTo(map);
         
         // add zoom control
         L.control.zoom({
