@@ -25,14 +25,17 @@
         
         var map = L.map('map', {
             center: [51.505, -0.09],
-            zoom: 13,
+            zoom: 1, // set initial zoom level to minimum native zoom level
             zoomControl: false // remove default zoom control
         });
         
-        L.imageOverlay(imageUrl, imageBounds, {
+        var imageOverlay = L.imageOverlay(imageUrl, imageBounds, {
             minNativeZoom: 1, // set minimum zoom level to display image at native size
             maxNativeZoom: 1 // set maximum zoom level to display image at native size
         }).addTo(map);
+        
+        // set the bounds of the image overlay to the bounds of the image itself
+        map.fitBounds(imageOverlay.getBounds());
         
         // add zoom control
         L.control.zoom({
