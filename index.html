@@ -27,8 +27,7 @@
             center: [51.505, -0.09],
             zoom: 1,
             zoomControl: false,
-            minZoom: 1,
-            maxZoom: 1
+            maxBoundsViscosity: 1.0 // set max bounds viscosity to prevent panning outside of maximum bounds
         });
         
         var imageOverlay = L.imageOverlay(imageUrl, imageBounds, {
@@ -43,6 +42,9 @@
         L.control.zoom({
             position: 'topright'
         }).addTo(map);
+        
+        // set maximum bounds to the bounds of the image overlay
+        map.setMaxBounds(imageOverlay.getBounds());
     </script>
 </body>
 </html>
