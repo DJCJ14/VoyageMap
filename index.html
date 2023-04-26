@@ -30,6 +30,7 @@
         });
         
         L.imageOverlay(imageUrl, imageBounds, {
+            minNativeZoom: 1, // set minimum zoom level to display image at native size
             maxNativeZoom: 1 // set maximum zoom level to display image at native size
         }).addTo(map);
         
