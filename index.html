@@ -46,6 +46,12 @@
           zoomLevel -= 0.1;
         }
         zoomLevel = Math.max(1, zoomLevel); // Don't zoom out beyond original size
+        let maxLeft = (window.innerWidth / zoomLevel - img.clientWidth) / 2;
+        let maxRight = maxLeft * -1;
+        let maxTop = (window.innerHeight / zoomLevel - img.clientHeight) / 2;
+        let maxBottom = maxTop * -1;
+        x = Math.max(maxLeft, Math.min(maxRight, x));
+        y = Math.max(maxTop, Math.min(maxBottom, y));
         img.style.transform = `scale(${zoomLevel}) translate(${x}px, ${y}px)`;
       });
       
@@ -79,6 +85,26 @@
         event.preventDefault();
         img.style.cursor = 'grab';
         isDragging = false;
+      });
+      
+      // Listen for double-click events on image
+      img.addEventListener('dblclick', function(event) {
+        event.preventDefault();
+        zoomLevel = 1;
+        x = 0;
+        y = 0;
+        img.style.transform = `scale(${zoomLevel}) translate(${x}px, ${y}px)`;
+      });
+      
+      // Listen for resize events on window
+      window.addEventListener('resize', function(event) {
+        let maxLeft = (window.innerWidth / zoomLevel - img.clientWidth) / 2;
+        let maxRight = maxLeft * -1;
+        let maxTop = (window.innerHeight / zoomLevel - img.clientHeight) / 2;
+        let maxBottom = maxTop * -1;
+        x = Math.max(maxLeft, Math.min(maxRight, x));
+        y = Math.max(maxTop, Math.min(maxBottom, y));
+        img.style.transform = `scale(${zoomLevel}) translate(${x}px, ${y}px)`;
       });
     </script>
   </body>
