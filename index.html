@@ -30,6 +30,10 @@
       let zoomLevel = 1;
       let x = 0;
       let y = 0;
+      let imgWidth = img.clientWidth;
+      let imgHeight = img.clientHeight;
+      let viewWidth = window.innerWidth;
+      let viewHeight = window.innerHeight;
       
       // Listen for scrollwheel events
       img.addEventListener('wheel', function(event) {
@@ -43,7 +47,7 @@
           zoomLevel -= 0.1;
         }
         zoomLevel = Math.max(1, zoomLevel); // Don't zoom out beyond original size
-        img.style.transform = `scale(${zoomLevel})`;
+        img.style.transform = `scale(${zoomLevel}) translate(${x}px, ${y}px)`;
       });
       
       // Listen for mousedown events on image
@@ -63,9 +67,13 @@
           event.preventDefault();
           let deltaX = event.clientX - startX;
           let deltaY = event.clientY - startY;
-          x += deltaX / zoomLevel;
-          y += deltaY / zoomLevel;
-          img.style.transform = `scale(${zoomLevel}) translate(${x}px, ${y}px)`;
+          let newX = x + deltaX / zoomLevel;
+          let newY = y + deltaY / zoomLevel;
+          let maxRight = (imgWidth * zoomLevel - viewWidth) / zoomLevel;
+          let maxBottom = (imgHeight * zoomLevel - viewHeight) / zoomLevel;
+          newX = Math.max(Math.min(0, newX), -maxRight);
+          newY = Math.max(Math.min(0, newY), -maxBottom);
+          img.style.transform = `scale(${zoomLevel}) translate(${newX}px, ${newY}px)`;
         }
         
         function stopDragging(event) {
@@ -73,6 +81,8 @@
           img.style.cursor = 'grab';
           document.removeEventListener('mousemove', dragImage);
           document.removeEventListener('mouseup', stopDragging);
+          x = parseInt(img.style.transform.split('(')[2]);
+          y = parseInt(img.style.transform.split(',')[1]);
         }
       });
     </script>
