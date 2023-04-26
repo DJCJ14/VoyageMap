@@ -30,10 +30,9 @@
       let zoomLevel = 1;
       let x = 0;
       let y = 0;
-      let imgWidth = img.clientWidth;
-      let imgHeight = img.clientHeight;
-      let viewWidth = window.innerWidth;
-      let viewHeight = window.innerHeight;
+      let isDragging = false;
+      let startX;
+      let startY;
       
       // Listen for scrollwheel events
       img.addEventListener('wheel', function(event) {
@@ -54,36 +53,32 @@
       img.addEventListener('mousedown', function(event) {
         event.preventDefault();
         img.style.cursor = 'grabbing';
-        let startX = event.clientX;
-        let startY = event.clientY;
-        
-        // Listen for mousemove events while dragging
-        document.addEventListener('mousemove', dragImage);
-        
-        // Listen for mouseup events to stop dragging
-        document.addEventListener('mouseup', stopDragging);
-        
-        function dragImage(event) {
-          event.preventDefault();
-          let deltaX = event.clientX - startX;
-          let deltaY = event.clientY - startY;
-          let newX = x + deltaX / zoomLevel;
-          let newY = y + deltaY / zoomLevel;
-          let maxRight = (imgWidth * zoomLevel - viewWidth) / zoomLevel * -1; // fix for maxRight
-          let maxBottom = (imgHeight * zoomLevel - viewHeight) / zoomLevel * -1; // fix for maxBottom
-          newX = Math.max(Math.min(0, newX), maxRight); // fix for newX
-          newY = Math.max(Math.min(0, newY), maxBottom); // fix for newY
-          img.style.transform = `scale(${zoomLevel}) translate(${newX}px, ${newY}px)`;
+        isDragging = true;
+        startX = event.clientX - x;
+        startY = event.clientY - y;
+      });
+      
+      // Listen for mousemove events on document
+      document.addEventListener('mousemove', function(event) {
+        event.preventDefault();
+        if (isDragging) {
+          x = event.clientX - startX;
+          y = event.clientY - startY;
+          let maxLeft = (window.innerWidth / zoomLevel - img.clientWidth) / 2;
+          let maxRight = maxLeft * -1;
+          let maxTop = (window.innerHeight / zoomLevel - img.clientHeight) / 2;
+          let maxBottom = maxTop * -1;
+          x = Math.max(maxLeft, Math.min(maxRight, x));
+          y = Math.max(maxTop, Math.min(maxBottom, y));
+          img.style.transform = `scale(${zoomLevel}) translate(${x}px, ${y}px)`;
         }
-        
-        function stopDragging(event) {
-          event.preventDefault();
-          img.style.cursor = 'grab';
-          document.removeEventListener('mousemove', dragImage);
-          document.removeEventListener('mouseup', stopDragging);
-          x = parseInt(img.style.transform.split('(')[2]);
-          y = parseInt(img.style.transform.split(',')[1]);
-        }
+      });
+      
+      // Listen for mouseup events on document
+      document.addEventListener('mouseup', function(event) {
+        event.preventDefault();
+        img.style.cursor = 'grab';
+        isDragging = false;
       });
     </script>
   </body>
