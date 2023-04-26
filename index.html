@@ -25,13 +25,14 @@
         
         var map = L.map('map', {
             center: [51.505, -0.09],
-            zoom: 1, // set initial zoom level to minimum native zoom level
-            zoomControl: false // remove default zoom control
+            zoom: 1,
+            zoomControl: false,
+            maxBoundsViscosity: 1.0 // set max bounds viscosity to prevent panning outside of maximum bounds
         });
         
         var imageOverlay = L.imageOverlay(imageUrl, imageBounds, {
-            minNativeZoom: 1, // set minimum zoom level to display image at native size
-            maxNativeZoom: 1 // set maximum zoom level to display image at native size
+            minNativeZoom: 1,
+            maxNativeZoom: 1
         }).addTo(map);
         
         // set the bounds of the image overlay to the bounds of the image itself
@@ -41,6 +42,9 @@
         L.control.zoom({
             position: 'topright'
         }).addTo(map);
+        
+        // set maximum bounds to the bounds of the image overlay
+        map.setMaxBounds(imageOverlay.getBounds());
     </script>
 </body>
 </html>
